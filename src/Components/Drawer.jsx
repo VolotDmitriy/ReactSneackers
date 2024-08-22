@@ -1,53 +1,44 @@
-import Icon from "../services/Icons/Icon";
+import Icon from "../services/Icon";
 
-const Drawer = () =>{
+const Drawer = ({items = [], onCloseBasket}) =>{
+
+    const priceCounter = () =>{
+        let count = 0;
+        items.map(items => count += items.price);
+        console.log(count);
+        return [count, count * 0.05];
+    }
+
+
     return (
 
-        <div className="overlay">
-            <div className="drawer">
+        <div className="overlay" onClick={onCloseBasket}>
+            <div className="drawer" onClick={(e) => e.stopPropagation()}>
                 <h2>Корзина</h2>
 
                 <div className="shopping-cart-list">
-                    <div className="shopping-cart-item">
-
-                        <img className="item__img" src="/images/1.png" alt="sneakers"/>
-                        <div className="shopping-cart-item__info">
-                            <span>Мужские Кроссовки Nike Air Max 270</span>
-                            <p>12 999 руб.</p>
+                    {items.map((item) =>
+                        <div className="shopping-cart-item">
+                            <img className="item__img" src={item.imgURL} alt="sneakers"/>
+                            <div className="shopping-cart-item__info">
+                                <span>{item.title}</span>
+                                <p>{item.price} руб.</p>
+                            </div>
+                            <Icon name="cancel-button"/>
                         </div>
-                        <Icon name="cancel-button"/>
-                    </div>
-                    <div className="shopping-cart-item">
-
-                        <img className="item__img" src="/images/1.png" alt="sneakers"/>
-                        <div className="shopping-cart-item__info">
-                            <span>Мужские Кроссовки Nike Air Max 270</span>
-                            <p>12 999 руб.</p>
-                        </div>
-                        <Icon name="cancel-button"/>
-                    </div>
-                    <div className="shopping-cart-item">
-
-                        <img className="item__img" src="/images/1.png" alt="sneakers"/>
-                        <div className="shopping-cart-item__info">
-                            <span>Мужские Кроссовки Nike Air Max 270</span>
-                            <p>12 999 руб.</p>
-                        </div>
-                        <Icon name="cancel-button"/>
-                    </div>
-
+                    )}
                 </div>
 
                 <div className="total-shopping">
                     <div className="total-element">
                         <span>Итог: </span>
                         <div className="line"></div>
-                        <span className="total-element__number">21 498 руб.</span>
+                        <span className="total-element__number">{priceCounter()[0]} руб.</span>
                     </div>
                     <div className="total-element">
                         <span>Налог 5%: </span>
                         <div className="line"></div>
-                        <span className="total-element__number">1074 руб.</span>
+                        <span className="total-element__number">{priceCounter()[1]} руб.</span>
                     </div>
                     <button className="place-an-order-btn">Оформить заказ</button>
                 </div>

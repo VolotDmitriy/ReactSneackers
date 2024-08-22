@@ -1,7 +1,7 @@
-import Icon from "../services/Icons/Icon";
+import Icon from "../services/Icon";
 
 
-const Header = () =>{
+const Header = (props) =>{
     return (
         <header>
             <div className="headerLogo">
@@ -13,7 +13,7 @@ const Header = () =>{
 
             </div>
             <ul>
-                <li className="balance">
+                <li className="balance" onClick={props.onClickCartBasket}>
                     <Icon name="cart" width={20} height={20}/>
                     <span>1205 руб.</span>
                 </li>

@@ -2,15 +2,15 @@
 import Cart from "./Cart";
 
 
-const CartList = () =>{
+const CartList = ({arrOfItems, clickPlus}) =>{
+
+
+
     return (
         <div className="items-list">
-
-            <Cart/>
-            <Cart/>
-            <Cart/>
-            <Cart/>
-
+            {arrOfItems.map(item =>
+                <Cart title={item.title} price={item.price} imgURL={item.img_url} onAdd={clickPlus}/>
+            )}
         </div>
     );
 }
