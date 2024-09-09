@@ -47,6 +47,8 @@ body{
     .headerLogo{
       display: flex;
       flex-direction: row;
+      flex-grow: 1;
+
       img{
         width: 40px;
         height: 40px;
@@ -67,7 +69,7 @@ body{
           user-select: text;
         }
       }
-      flex-grow: 1;
+
     }
 
     ul{
@@ -115,12 +117,55 @@ body{
       background-image: url("../public/images/ad.png");
 
     }
+    .content-search{
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      h1 {
+        font-weight: 700;
+        font-size: 32px;
+        flex-grow: 1;
+      }
 
-    h1 {
+      .searchPlace{
+        height: 45px;
+        position: relative;
 
-      font-weight: 700;
-      font-size: 32px;
+        input{
+
+          width: 250px;
+          height: 45px;
+          position: relative;
+          padding-inline: 30px 10px;
+
+          border: 1px solid #F3F3F3;
+          border-radius: 10px;
+
+          font-family: "Inter", sans-serif;
+          font-size: 14px;
+
+          transition: box-shadow 0.2s ease-in-out;
+          &:focus{
+            color: #5C5C5C;
+            outline: none;
+            box-shadow: 0px 14px 30px rgba(0, 0, 0, 0.05);
+          }
+        }
+
+
+
+      }
+      .searchIcon, svg{
+        position: absolute;
+        right: 90%;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
     }
+
+
 
     .items-list {
       display: flex;
@@ -130,6 +175,7 @@ body{
       margin-top: 30px;
 
       .item {
+        position: relative;
 
         display: flex;
         justify-content: center;
@@ -146,6 +192,11 @@ body{
 
         transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
 
+        .favourite{
+          position: absolute;
+          top: 25px;
+          left: 25px;
+        }
 
         .item__img {
           width: 100%;
@@ -207,7 +258,7 @@ body{
 }
 
 .overlay{
-  position: absolute;
+  position: fixed;
 
   left: 0;
   top: 0;
