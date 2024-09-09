@@ -3,17 +3,20 @@ import "../services/SpaceNumberInsertion";
 import {SpaceNumberInsertion} from "../services/SpaceNumberInsertion";
 import {useState} from "react";
 
-const Cart = ({title, price, imgURL, onAdd}) =>{
+const Cart = ({id_, title, price, imgURL, onAdd}) =>{
 
     const [isAdded, setIsAdded] = useState(false);
 
     const handleAddButton = () => {
         setIsAdded(!isAdded);
-        onAdd({title, price, imgURL});
+        onAdd({id_, title, price, imgURL});
     }
 
     return (
-        <div className="item">
+        <div className={`item ${id_}`}>
+            <div className="favourite">
+                <Icon  name="favourite_nonactive"/>
+            </div>
             <img className="item__img" src={imgURL} alt="sneakers"/>
             <p className="item__sign">{title}</p>
 

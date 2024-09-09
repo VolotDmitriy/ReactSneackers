@@ -1,14 +1,7 @@
 import Icon from "../services/Icon";
+import {priceCounter} from "../services/priceCounter";
 
-const Drawer = ({items = [], onCloseBasket}) =>{
-
-    const priceCounter = () =>{
-        let count = 0;
-        items.map(items => count += items.price);
-        console.log(count);
-        return [count, count * 0.05];
-    }
-
+const Drawer = ({items = [], onRemove, onCloseBasket}) =>{
 
     return (
 
@@ -24,7 +17,10 @@ const Drawer = ({items = [], onCloseBasket}) =>{
                                 <span>{item.title}</span>
                                 <p>{item.price} руб.</p>
                             </div>
-                            <Icon name="cancel-button"/>
+                            <div className = "cancel-button" onClick={() => onRemove(item.id_)}>
+                                <Icon name="cancel-button"/>
+                            </div>
+
                         </div>
                     )}
                 </div>
@@ -33,12 +29,12 @@ const Drawer = ({items = [], onCloseBasket}) =>{
                     <div className="total-element">
                         <span>Итог: </span>
                         <div className="line"></div>
-                        <span className="total-element__number">{priceCounter()[0]} руб.</span>
+                        <span className="total-element__number">{priceCounter(items)[0]} руб.</span>
                     </div>
                     <div className="total-element">
                         <span>Налог 5%: </span>
                         <div className="line"></div>
-                        <span className="total-element__number">{priceCounter()[1]} руб.</span>
+                        <span className="total-element__number">{priceCounter(items)[1]} руб.</span>
                     </div>
                     <button className="place-an-order-btn">Оформить заказ</button>
                 </div>

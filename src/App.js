@@ -2,15 +2,21 @@ import CartList from "./Components/CartList";
 import Header from "./Components/Header";
 import Drawer from "./Components/Drawer";
 import {useEffect, useState} from "react";
-
+import Icon from "./services/Icon";
+import axios from "axios";
 
 
 
 function App() {
-    const [items, setItems] = useState([]);
-    const [cartItems, setCartItems] = useState([]);
 
-    const [isOpened, setIsOpened] = useState(false);
+
+    const [isOpened, setIsOpened] = useState(false);  // MARK FOR OPEN STATUS OF MODAL (CART LIST)
+
+    const [items, setItems] = useState([]);             // MAIN ITEMS LIST
+    const [cartItems, setCartItems] = useState([]);     // ITEMS WHICH WAS ADDED TO SHOP CART
+
+    const [search, setSearch] = useState("");
+
 
     useEffect(() => {
         fetch("https://66c63627134eb8f4349714df.mockapi.io/items")
@@ -22,26 +28,55 @@ function App() {
             .then((json) => {
                 setItems(json);
             })
+        updateCartItems();
     }, []);
 
-    const clickPlus = (obj) =>{
-        setCartItems(prev => [...prev, obj])
+
+
+    const displayableItems = (items, filterValue) => {
+        return items.filter(items => items.title.toLowerCase().includes(filterValue))
     }
+
+    const updateCartItems = () => {
+        axios.get ("https://66c63627134eb8f4349714df.mockapi.io/cart")
+            .then((res) => setCartItems(res.data));
+    }
+
+
+    const addItemToCartList = (obj) =>{
+        axios.post("https://66c63627134eb8f4349714df.mockapi.io/cart", obj)
+            .then(() => updateCartItems());
+    }
+
+    const removeItemFromCartList = (id) => {
+        const deleteItem = cartItems.find (item => item.id_ === id ? item.id : null);
+        if (deleteItem){
+            axios.delete(`https://66c63627134eb8f4349714df.mockapi.io/cart/${deleteItem.id}`)
+                .then(() => updateCartItems());
+            }
+    }
+
 
     return (
       <div className="wrapper">
 
-          {isOpened && <Drawer items={cartItems} onCloseBasket={() => setIsOpened(false)}/> }
-
-          <Header onClickCartBasket={() => setIsOpened(true)}/>
+          {isOpened && <Drawer items={cartItems} onRemove = {removeItemFromCartList} onCloseBasket = {() => setIsOpened(false)}/> }
+          <Header onClickCartBasket = {() => setIsOpened(true)}/>
 
           <div className="demarcation-line"><span></span></div>
 
           <div className="content">
               <div className="scroll-bar"></div>
-              <h1>Все кроссовки</h1>
+              <div className="content-search">
+                  <h1>{search ? `Поиск по запросу: ${search}` : "Все кроссовки"}</h1>
+                  <div className="searchPlace">
+                      <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)}/>
+                      <Icon className = "searchIcon" name = {"search"}/>
+                  </div>
 
-              <CartList arrOfItems={items} clickPlus={clickPlus}/>
+
+              </div>
+              <CartList arrOfItems = {displayableItems(items, search)} clickPlus = {addItemToCartList}/>
           </div>
       </div>
   );
