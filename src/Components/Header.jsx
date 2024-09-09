@@ -15,7 +15,7 @@ const Header = (props) =>{
             <ul>
                 <li className="balance" onClick={props.onClickCartBasket}>
                     <Icon name="cart" width={20} height={20}/>
-                    <span>1205 руб.</span>
+                    <span>{props.totalPrice} руб.</span>
                 </li>
                 <li className="Bootmark">
                     <Icon name="heart" width={19} height={17}/>

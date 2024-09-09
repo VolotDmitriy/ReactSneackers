@@ -4,8 +4,6 @@ import Cart from "./Cart";
 
 const CartList = ({arrOfItems, clickPlus}) =>{
 
-
-
     return (
         <div className="items-list">
             {arrOfItems.map((item)=>
@@ -14,7 +12,7 @@ const CartList = ({arrOfItems, clickPlus}) =>{
                     id_={item.id_}
                     title={item.title}
                     price={item.price}
-                    imgURL={item.img_url}
+                    imgURL={item.imgURL}
                     onAdd={clickPlus}
                 />
             )}
