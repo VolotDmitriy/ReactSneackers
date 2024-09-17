@@ -2,7 +2,7 @@
 import Cart from "./Cart";
 
 
-const CartList = ({arrOfItems, clickPlus}) =>{
+const CartList = ({arrOfItems, clickToAdd, clickToFavourite, onRemoveFavourite, favStatus}) =>{
 
     return (
         <div className="items-list">
@@ -13,7 +13,10 @@ const CartList = ({arrOfItems, clickPlus}) =>{
                     title={item.title}
                     price={item.price}
                     imgURL={item.imgURL}
-                    onAdd={clickPlus}
+                    onAdd={clickToAdd}
+                    onFavourite={clickToFavourite}
+                    onRemoveFavourite={onRemoveFavourite}
+                    favStatus={favStatus}
                 />
             )}
         </div>
