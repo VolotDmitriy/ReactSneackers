@@ -7,6 +7,7 @@ import { SpaceNumberInsertion } from "./services/SpaceNumberInsertion";
 import Home from "./pages/Home";
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Favourite from "./pages/Favourite";
+import { ca } from 'wait-on/exampleConfig';
 
 function App() {
   const [isOpened, setIsOpened] = useState(false); // MARK FOR OPEN STATUS OF MODAL (CART LIST)
@@ -15,19 +16,20 @@ function App() {
   const [cartItems, setCartItems] = useState([]); // ITEMS WHICH WAS ADDED TO SHOP CART
   const [favouriteItems, setFavouriteItems] = useState([]);
 
-
   const location = useLocation();
 
   useEffect(() => {
-    fetch("http://localhost:5000/items")
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setItems(json);
-      });
-    updateCartItems();
-    updateFavouriteItems();
+
+    async function fetchData () {
+      await updateFavouriteItems();
+      await updateCartItems();
+
+      const res = await fetch("http://localhost:5000/items");
+      const json = await res.json();
+      setItems(json);
+    }
+    fetchData();
+
   }, []);
 
   useEffect(() => {
@@ -39,45 +41,65 @@ function App() {
       updateFavouriteItems();
     }
   }, [location]);
-  const updateCartItems = () => {
-    axios
-      .get("http://localhost:5000/cart")
-      .then((res) => setCartItems(res.data));
+  const updateCartItems = async () => {
+    try{
+      const res = await  axios.get("http://localhost:5000/cart");
+      setCartItems(res.data);
+    } catch (e) {
+      console.error(e);
+    }
   };
-  const updateFavouriteItems = () => {
-    axios
-      .get("http://localhost:5000/favourite")
-      .then((res) => setFavouriteItems(res.data));
+  const updateFavouriteItems = async () => {
+    try{
+      const res = await axios.get("http://localhost:5000/favourite");
+      setFavouriteItems(res.data);
+    } catch (e){
+      console.error(e);
+    }
   };
-  const addItemToCartList = (obj) => {
-    axios.post("http://localhost:5000/cart", obj);
-    setCartItems([...cartItems, obj]);
+  const addItemToCartList = async (obj) => {
+    try {
+      if (cartItems.find((e) => e.id_ === obj.id_)){
+        removeItemFromCartList(obj.id_);
+      }
+      else{
+        const {data} = await axios.post("http://localhost:5000/cart", obj);
+        setCartItems([...cartItems, data]);
+      }
+    }
+    catch (error){
+      alert("Can't add items to favourite");
+    }
+
+
   };
-  const addItemsToFavourite = (obj) => {
-    axios.post("http://localhost:5000/favourite", obj);
-    setFavouriteItems([...favouriteItems, obj]);
+  const addItemsToFavourite = async (obj) => {
+    try {
+      if (favouriteItems.find((e) => e.id_ === obj.id_)){
+        removeItemFromFavouriteList(obj.id_);
+      }
+      else{
+        const {data} = await axios.post("http://localhost:5000/favourite", obj);
+        setFavouriteItems([...favouriteItems, data]);
+      }
+    }
+    catch (error){
+      alert("Can't add items to favourite");
+    }
   };
   const removeItemFromCartList = (id) => {
-    console.log(id)
     const deleteItem = cartItems.find((item) => item.id_ === id);
-    console.log(deleteItem)
-    console.log(favouriteItems)
     if (deleteItem) {
       axios.delete(`http://localhost:5000/cart/${deleteItem.id}`);
       setCartItems(cartItems.filter((item) => item.id_ !== deleteItem.id_));
     }
   };
-
   const removeItemFromFavouriteList = (id) => {
-    console.log(id)
     const deleteItem = favouriteItems.find((item) => item.id_ === id);
-    console.log(deleteItem)
-    console.log(favouriteItems)
     if (deleteItem) {
       axios.delete(`http://localhost:5000/favourite/${deleteItem.id}`);
       setFavouriteItems(favouriteItems.filter((item) => item.id_ !== deleteItem.id_));
     }
-    console.log(favouriteItems)
   };
 
   return (
@@ -103,6 +125,7 @@ function App() {
         <Route path={"/"} element={
             <Home
               items={items}
+              cartItems={cartItems}
               addItemToCartList={addItemToCartList}
               addItemsToFavourite={addItemsToFavourite}
               removeItemFromFavouriteList={removeItemFromFavouriteList}
@@ -113,7 +136,6 @@ function App() {
               favouriteItems={favouriteItems}
               addItemToCartList={addItemToCartList}
               addItemsToFavourite={addItemsToFavourite}
-              removeItemFromFavouriteList={removeItemFromFavouriteList}
             />
         }/>
       </Routes>

@@ -5,11 +5,13 @@ import { displayableItems } from '../services/displayableItems';
 
 const Home = ({
   items,
+  cartItems,
   addItemToCartList,
   addItemsToFavourite,
   removeItemFromFavouriteList,
 }) => {
   const [search, setSearch] = useState('');
+  {console.log(cartItems.some((obj) => obj.id_ === items.id_))}
 
   return (
     <div className="content">
@@ -30,10 +32,10 @@ const Home = ({
 
       <CartList
         arrOfItems={displayableItems(items, search)}
+        cartItems={cartItems}
         clickToAdd={addItemToCartList}
         clickToFavourite={addItemsToFavourite}
         removeItemFromFavouriteList={removeItemFromFavouriteList}
-        favStatus={false}
       />
     </div>
   );

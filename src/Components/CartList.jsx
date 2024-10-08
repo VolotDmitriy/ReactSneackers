@@ -2,12 +2,14 @@
 import Cart from "./Cart";
 
 
-const CartList = ({arrOfItems, clickToAdd, clickToFavourite, onRemoveFavourite, favStatus}) =>{
+const CartList = ({arrOfItems, cartItems, clickToAdd, clickToFavourite, favStatus, added}) =>{
 
     return (
         <div className="items-list">
-            {arrOfItems.map((item)=>
-                <Cart
+            {arrOfItems.map((item)=> {
+                const isAdded = cartItems.some((obj) => obj.id_ === item.id_);
+                return(
+                  <Cart
                     key={item.id_}
                     id_={item.id_}
                     title={item.title}
@@ -15,9 +17,10 @@ const CartList = ({arrOfItems, clickToAdd, clickToFavourite, onRemoveFavourite, 
                     imgURL={item.imgURL}
                     onAdd={clickToAdd}
                     onFavourite={clickToFavourite}
-                    onRemoveFavourite={onRemoveFavourite}
-                    favStatus={favStatus}
-                />
+                    favStatus={false}
+                    added={isAdded}
+                  />
+                )}
             )}
         </div>
     );

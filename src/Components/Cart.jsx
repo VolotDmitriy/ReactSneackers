@@ -3,9 +3,9 @@ import "../services/SpaceNumberInsertion";
 import {SpaceNumberInsertion} from "../services/SpaceNumberInsertion";
 import {useState} from "react";
 
-const Cart = ({id_, title, price, imgURL, onAdd, onFavourite, onRemoveFavourite, favStatus = false}) =>{
+const Cart = ({id_, title, price, imgURL, onAdd, onFavourite, favStatus = false, added = false}) =>{
 
-    const [isAdded, setIsAdded] = useState(false);
+    const [isAdded, setIsAdded] = useState(added);
     const [isFavourite, setIsFavourite] = useState(favStatus);
 
     const handleAddButton = () => {
@@ -15,8 +15,7 @@ const Cart = ({id_, title, price, imgURL, onAdd, onFavourite, onRemoveFavourite,
 
     const handleFavouriteButton = () =>{
         setIsFavourite(!isFavourite);
-        isFavourite ? onRemoveFavourite(id_) : onFavourite ({id_, title, price, imgURL})
-
+        onFavourite ({id_, title, price, imgURL})
     }
 
 

@@ -16,11 +16,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "server": "json-server db.json --port 5000",
     "start": "cross-env BROWSER=none react-scripts start",
+    "dev": "start-server-and-test 'npm run server' http://localhost:5000/items 'npm run start'",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server db.json --port 5000"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +43,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "start-server-and-test": "^2.0.8",
+    "wait-on": "^8.0.1"
   }
 }

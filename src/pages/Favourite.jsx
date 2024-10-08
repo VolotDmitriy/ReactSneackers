@@ -4,7 +4,6 @@ const Favourite = ({
   favouriteItems,
   addItemsToFavourite,
   addItemToCartList,
-  removeItemFromFavouriteList,
 }) => {
   return (
     <div className="content">
@@ -16,7 +15,6 @@ const Favourite = ({
         arrOfItems={favouriteItems}
         clickToAdd={addItemToCartList}
         clickToFavourite={addItemsToFavourite}
-        onRemoveFavourite={removeItemFromFavouriteList}
         favStatus={true}
       />
     </div>
