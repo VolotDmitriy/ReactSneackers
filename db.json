@@ -64,6 +64,42 @@
       "id": "dc18"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "e215",
+      "id_": "8251e32c-d9a4-4177-b183-ed830201a975",
+      "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+      "price": 12999,
+      "imgURL": "/images/items/1.png"
+    },
+    {
+      "id": "3407",
+      "id_": "93f33c90-027a-4036-9a19-182be37ab16f",
+      "title": "Мужские Кроссовки Under Armour Curry 8",
+      "price": 15199,
+      "imgURL": "/images/items/5.png"
+    },
+    {
+      "id": "0a15",
+      "id_": "e69065d3-5f1d-4a1d-97b3-08ca96cb4e5e",
+      "title": "КроМужские Кроссовки Nike Kyrie 7",
+      "price": 11299,
+      "imgURL": "/images/items/6.png"
+    },
+    {
+      "id": "deea",
+      "id_": "ae7b581f-c11b-4ca5-9c3b-8d3439542e8c",
+      "title": "Мужские Кроссовки Nike Air Max 270",
+      "price": 12999,
+      "imgURL": "/images/items/2.png"
+    },
+    {
+      "id": "3c45",
+      "id_": "93db3c31-60fc-458c-a8fd-38092a9d1310",
+      "title": "Мужские Кроссовки Nike Lebron XVIII Low",
+      "price": 13999,
+      "imgURL": "/images/items/9.png"
+    }
+  ],
   "favourite": []
 }
