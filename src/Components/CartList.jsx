@@ -11,6 +11,7 @@ const CartList = ({arrOfItems, clickPlus}) =>{
             {arrOfItems.map(item =>
                 <Cart title={item.title} price={item.price} imgURL={item.img_url} onAdd={clickPlus}/>
             )}
+
         </div>
     );
 }
