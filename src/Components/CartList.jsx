@@ -1,31 +1,30 @@
+import Cart from './Cart';
 
-import Cart from "./Cart";
+const CartList = ({
+  arrOfItems,
+  cartItems,
+  favItems,
+  clickToAdd,
+  clickToFavourite,
+  isLoading,
+}) => {
+  const renderItems = () => {
+    return (isLoading ? [...Array(8)] : arrOfItems).map((item, index) => {
+      return (
+        <Cart
+          key={index}
+          onAdd={clickToAdd}
+          onFavourite={clickToFavourite}
+          favStatus={favItems.some((obj) => obj.id_ === item.id_)}
+          added={cartItems.some((obj) => obj.id_ === item.id_)}
+          loading={isLoading}
+          {...item}
+        />
+      );
+    });
+  };
 
-
-const CartList = ({arrOfItems, cartItems, favItems, clickToAdd, clickToFavourite}) =>{
-
-    return (
-        <div className="items-list">
-            {arrOfItems.map((item)=> {
-                const isAdded = cartItems.some((obj) => obj.id_ === item.id_);
-                const isFav = favItems.some((obj) => obj.id_ === item.id_);
-                return(
-                  <Cart
-                    key={item.id_}
-                    id_={item.id_}
-                    title={item.title}
-                    price={item.price}
-                    imgURL={item.imgURL}
-                    onAdd={clickToAdd}
-                    onFavourite={clickToFavourite}
-                    favStatus={isFav}
-                    added={isAdded}
-                  />
-                )}
-            )}
-
-        </div>
-    );
-}
+  return <div className="items-list">{renderItems()}</div>;
+};
 
 export default CartList;

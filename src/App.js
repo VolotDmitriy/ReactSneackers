@@ -1,13 +1,12 @@
-import Header from "./Components/Header";
-import Drawer from "./Components/Drawer";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { priceCounter } from "./services/priceCounter";
-import { SpaceNumberInsertion } from "./services/SpaceNumberInsertion";
-import Home from "./pages/Home";
+import Header from './Components/Header';
+import Drawer from './Components/Drawer';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { priceCounter } from './services/priceCounter';
+import { SpaceNumberInsertion } from './services/SpaceNumberInsertion';
+import Home from './pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Favourite from "./pages/Favourite";
-
+import Favourite from './pages/Favourite';
 
 function App() {
   const [isOpened, setIsOpened] = useState(false); // MARK FOR OPEN STATUS OF MODAL (CART LIST)
@@ -16,74 +15,72 @@ function App() {
   const [cartItems, setCartItems] = useState([]); // ITEMS WHICH WAS ADDED TO SHOP CART
   const [favouriteItems, setFavouriteItems] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-
-    async function fetchData () {
+    async function fetchData() {
+      setIsLoading(true);
       await updateFavouriteItems();
       await updateCartItems();
 
-      const res = await fetch("http://localhost:5000/items");
+      const res = await fetch('http://localhost:5000/items');
       const json = await res.json();
       setItems(json);
+      setIsLoading(false);
     }
-    fetchData();
 
+    fetchData();
   }, []);
   useEffect(() => {
     isOpened && updateCartItems();
   }, [isOpened]);
   useEffect(() => {
-    if (location.pathname === "/favourite") {
+    if (location.pathname === '/favourite') {
       updateFavouriteItems();
     }
   }, [location]);
 
-
   const updateCartItems = async () => {
-    try{
-      const res = await  axios.get("http://localhost:5000/cart");
+    try {
+      const res = await axios.get('http://localhost:5000/cart');
       setCartItems(res.data);
     } catch (e) {
       console.error(e);
     }
   };
   const updateFavouriteItems = async () => {
-    try{
-      const res = await axios.get("http://localhost:5000/favourite");
+    try {
+      const res = await axios.get('http://localhost:5000/favourite');
       setFavouriteItems(res.data);
-    } catch (e){
+    } catch (e) {
       console.error(e);
     }
   };
   const addItemToCartList = async (obj) => {
     try {
-      if (cartItems.find((e) => e.id_ === obj.id_)){
+      if (cartItems.find((e) => e.id_ === obj.id_)) {
         removeItemFromCartList(obj.id_);
-      }
-      else{
-        const {data} = await axios.post("http://localhost:5000/cart", obj);
+      } else {
+        const { data } = await axios.post('http://localhost:5000/cart', obj);
         setCartItems([...cartItems, data]);
       }
-    }
-    catch (error){
+    } catch (error) {
       alert("Can't add items to favourite");
     }
-
-
   };
   const addItemsToFavourite = async (obj) => {
     try {
-      if (favouriteItems.find((e) => e.id_ === obj.id_)){
+      if (favouriteItems.find((e) => e.id_ === obj.id_)) {
         removeItemFromFavouriteList(obj.id_);
-      }
-      else{
-        const {data} = await axios.post("http://localhost:5000/favourite", obj);
+      } else {
+        const { data } = await axios.post(
+          'http://localhost:5000/favourite',
+          obj
+        );
         setFavouriteItems([...favouriteItems, data]);
       }
-    }
-    catch (error){
+    } catch (error) {
       alert("Can't add items to favourite");
     }
   };
@@ -98,7 +95,9 @@ function App() {
     const deleteItem = favouriteItems.find((item) => item.id_ === id);
     if (deleteItem) {
       axios.delete(`http://localhost:5000/favourite/${deleteItem.id}`);
-      setFavouriteItems(favouriteItems.filter((item) => item.id_ !== deleteItem.id_));
+      setFavouriteItems(
+        favouriteItems.filter((item) => item.id_ !== deleteItem.id_)
+      );
     }
   };
 
@@ -122,7 +121,9 @@ function App() {
       </div>
 
       <Routes>
-        <Route path={"/"} element={
+        <Route
+          path={'/'}
+          element={
             <Home
               items={items}
               cartItems={cartItems}
@@ -130,17 +131,23 @@ function App() {
               addItemToCartList={addItemToCartList}
               addItemsToFavourite={addItemsToFavourite}
               removeItemFromFavouriteList={removeItemFromFavouriteList}
+              isLoading={isLoading}
             />
-        }/>
-        <Route path={"/favourite"} element={
+          }
+        />
+        <Route
+          path={'/favourite'}
+          element={
             <Favourite
               cartItems={cartItems}
               favouriteItems={favouriteItems}
               addItemToCartList={addItemToCartList}
               addItemsToFavourite={addItemsToFavourite}
               removeItemFromFavouriteList={removeItemFromFavouriteList}
+              isLoading={isLoading}
             />
-        }/>
+          }
+        />
       </Routes>
     </div>
   );

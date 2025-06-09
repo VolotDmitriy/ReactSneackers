@@ -10,9 +10,12 @@ const Home = ({
   addItemToCartList,
   addItemsToFavourite,
   removeItemFromFavouriteList,
+  isLoading,
 }) => {
   const [search, setSearch] = useState('');
-  {console.log(cartItems.some((obj) => obj.id_ === items.id_))}
+  {
+    console.log(cartItems.some((obj) => obj.id_ === items.id_));
+  }
 
   return (
     <div className="content">
@@ -38,6 +41,7 @@ const Home = ({
         clickToAdd={addItemToCartList}
         clickToFavourite={addItemsToFavourite}
         removeItemFromFavouriteList={removeItemFromFavouriteList}
+        isLoading={isLoading}
       />
     </div>
   );
