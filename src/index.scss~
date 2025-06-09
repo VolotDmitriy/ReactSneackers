@@ -297,6 +297,7 @@ body{
 
     background: #FFFFFF;
 
+    overflow: hidden;
     h2{
       margin-bottom: 30px;
     }
@@ -354,9 +355,7 @@ body{
 
     .shopping-cart-list{
       margin-bottom: 20px;
-      overflow: scroll;
-      scroll-behavior: auto;
-      overflow-x: hidden;
+      overflow-y: auto;
 
       .shopping-cart-item{
         display: flex;
