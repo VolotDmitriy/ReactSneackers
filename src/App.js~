@@ -40,7 +40,7 @@ function App() {
     }
   }, [location]);
 
-
+  
   const updateCartItems = async () => {
     try{
       const res = await  axios.get("http://localhost:5000/cart");

@@ -1,6 +1,7 @@
 import CartList from "../Components/CartList";
 
 const Favourite = ({
+  cartItems,
   favouriteItems,
   addItemsToFavourite,
   addItemToCartList,
@@ -13,6 +14,9 @@ const Favourite = ({
 
       <CartList
         arrOfItems={favouriteItems}
+        cartItems={cartItems}
+        favItems={favouriteItems}
+
         clickToAdd={addItemToCartList}
         clickToFavourite={addItemsToFavourite}
         favStatus={true}

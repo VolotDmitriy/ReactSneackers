@@ -6,6 +6,7 @@ import { displayableItems } from '../services/displayableItems';
 const Home = ({
   items,
   cartItems,
+  favouriteItems,
   addItemToCartList,
   addItemsToFavourite,
   removeItemFromFavouriteList,
@@ -33,6 +34,7 @@ const Home = ({
       <CartList
         arrOfItems={displayableItems(items, search)}
         cartItems={cartItems}
+        favItems={favouriteItems}
         clickToAdd={addItemToCartList}
         clickToFavourite={addItemsToFavourite}
         removeItemFromFavouriteList={removeItemFromFavouriteList}
