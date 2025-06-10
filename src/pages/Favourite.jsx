@@ -1,27 +1,17 @@
 import CartList from '../Components/CartList';
+import AppContext from '../context';
+import { useContext } from 'react';
 
-const Favourite = ({
-  cartItems,
-  favouriteItems,
-  addItemsToFavourite,
-  addItemToCartList,
-  isLoading,
-}) => {
+const Favourite = ({}) => {
+  const { favouriteItems } = useContext(AppContext);
+
   return (
     <div className="content">
       <div className="content-search">
         <h1>Все закладки</h1>
       </div>
 
-      <CartList
-        arrOfItems={favouriteItems}
-        cartItems={cartItems}
-        favItems={favouriteItems}
-        clickToAdd={addItemToCartList}
-        clickToFavourite={addItemsToFavourite}
-        favStatus={true}
-        isLoading={isLoading}
-      />
+      <CartList arrOfItems={favouriteItems} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import Drawer from './Components/Drawer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { priceCounter } from './services/priceCounter';
+import AppContext from './context';
 import { SpaceNumberInsertion } from './services/SpaceNumberInsertion';
 import Home from './pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -100,56 +101,51 @@ function App() {
       );
     }
   };
+  const isItemAdded = (id) => {
+    return cartItems.some((obj) => obj.id_ === id);
+  };
+  const isItemFavourite = (id) => {
+    return favouriteItems.some((obj) => obj.id_ === id);
+  };
 
   return (
-    <div className="wrapper">
-      {isOpened && (
-        <Drawer
-          items={cartItems}
-          onRemove={removeItemFromCartList}
-          onCloseBasket={() => setIsOpened(false)}
+    <AppContext.Provider
+      value={{
+        items,
+        cartItems,
+        favouriteItems,
+        addItemToCartList,
+        addItemsToFavourite,
+        removeItemFromFavouriteList,
+        isItemAdded,
+        isItemFavourite,
+        isLoading,
+      }}
+    >
+      <div className="wrapper">
+        {isOpened && (
+          <Drawer
+            items={cartItems}
+            onRemove={removeItemFromCartList}
+            onCloseBasket={() => setIsOpened(false)}
+          />
+        )}
+
+        <Header
+          onClickCartBasket={() => setIsOpened(true)}
+          totalPrice={SpaceNumberInsertion(priceCounter(cartItems)[0])}
         />
-      )}
 
-      <Header
-        onClickCartBasket={() => setIsOpened(true)}
-        totalPrice={SpaceNumberInsertion(priceCounter(cartItems)[0])}
-      />
+        <div className="demarcation-line">
+          <span></span>
+        </div>
 
-      <div className="demarcation-line">
-        <span></span>
+        <Routes>
+          <Route path={'/'} element={<Home />} />
+          <Route path={'/favourite'} element={<Favourite />} />
+        </Routes>
       </div>
-
-      <Routes>
-        <Route
-          path={'/'}
-          element={
-            <Home
-              items={items}
-              cartItems={cartItems}
-              favouriteItems={favouriteItems}
-              addItemToCartList={addItemToCartList}
-              addItemsToFavourite={addItemsToFavourite}
-              removeItemFromFavouriteList={removeItemFromFavouriteList}
-              isLoading={isLoading}
-            />
-          }
-        />
-        <Route
-          path={'/favourite'}
-          element={
-            <Favourite
-              cartItems={cartItems}
-              favouriteItems={favouriteItems}
-              addItemToCartList={addItemToCartList}
-              addItemsToFavourite={addItemsToFavourite}
-              removeItemFromFavouriteList={removeItemFromFavouriteList}
-              isLoading={isLoading}
-            />
-          }
-        />
-      </Routes>
-    </div>
+    </AppContext.Provider>
   );
 }
 

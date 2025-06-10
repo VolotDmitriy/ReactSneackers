@@ -1,21 +1,12 @@
 import Icon from '../services/Icon';
 import CartList from '../Components/CartList';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { displayableItems } from '../services/displayableItems';
+import AppContext from '../context';
 
-const Home = ({
-  items,
-  cartItems,
-  favouriteItems,
-  addItemToCartList,
-  addItemsToFavourite,
-  removeItemFromFavouriteList,
-  isLoading,
-}) => {
+const Home = ({}) => {
   const [search, setSearch] = useState('');
-  {
-    console.log(cartItems.some((obj) => obj.id_ === items.id_));
-  }
+  const { items } = useContext(AppContext);
 
   return (
     <div className="content">
@@ -34,15 +25,7 @@ const Home = ({
         </div>
       </div>
 
-      <CartList
-        arrOfItems={displayableItems(items, search)}
-        cartItems={cartItems}
-        favItems={favouriteItems}
-        clickToAdd={addItemToCartList}
-        clickToFavourite={addItemsToFavourite}
-        removeItemFromFavouriteList={removeItemFromFavouriteList}
-        isLoading={isLoading}
-      />
+      <CartList arrOfItems={displayableItems(items, search)} />
     </div>
   );
 };

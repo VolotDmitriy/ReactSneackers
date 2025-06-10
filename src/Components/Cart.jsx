@@ -1,8 +1,9 @@
 import Icon from '../services/Icon';
 import '../services/SpaceNumberInsertion';
 import { SpaceNumberInsertion } from '../services/SpaceNumberInsertion';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ContentLoader from 'react-content-loader';
+import AppContext from '../context';
 
 const Cart = ({
   id_,
@@ -11,20 +12,15 @@ const Cart = ({
   imgURL,
   onAdd,
   onFavourite,
-  favStatus = false,
-  added = false,
   loading = false,
 }) => {
-  const [isAdded, setIsAdded] = useState(added);
-  const [isFavourite, setIsFavourite] = useState(favStatus);
+  const { isItemAdded, isItemFavourite } = useContext(AppContext);
 
   const handleAddButton = () => {
-    setIsAdded(!isAdded);
     onAdd({ id_, title, price, imgURL });
   };
 
   const handleFavouriteButton = () => {
-    setIsFavourite(!isFavourite);
     onFavourite({ id_, title, price, imgURL });
   };
 
@@ -49,7 +45,11 @@ const Cart = ({
         <>
           <div className="favourite" onClick={() => handleFavouriteButton()}>
             <Icon
-              name={isFavourite ? 'favourite_active' : 'favourite_nonactive'}
+              name={
+                isItemFavourite(id_)
+                  ? 'favourite_active'
+                  : 'favourite_nonactive'
+              }
             />
           </div>
           <img className="item__img" src={imgURL} alt="sneakers" />
@@ -62,7 +62,7 @@ const Cart = ({
             </div>
 
             <div className="item__add-button" onClick={handleAddButton}>
-              <Icon name={isAdded ? 'added-cart' : 'plus'} />
+              <Icon name={isItemAdded(id_) ? 'added-cart' : 'plus'} />
             </div>
           </div>
         </>

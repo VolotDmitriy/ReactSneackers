@@ -1,29 +1,23 @@
 import Cart from './Cart';
+import AppContext from '../context';
+import { useContext } from 'react';
 
-const CartList = ({
-  arrOfItems,
-  cartItems,
-  favItems,
-  clickToAdd,
-  clickToFavourite,
-  isLoading,
-}) => {
+const CartList = ({ arrOfItems }) => {
+  const state = useContext(AppContext);
+
   const renderItems = () => {
-    return (isLoading ? [...Array(8)] : arrOfItems).map((item, index) => {
+    return (state.isLoading ? [...Array(8)] : arrOfItems).map((item, index) => {
       return (
         <Cart
           key={index}
-          onAdd={clickToAdd}
-          onFavourite={clickToFavourite}
-          favStatus={favItems.some((obj) => obj.id_ === item.id_)}
-          added={cartItems.some((obj) => obj.id_ === item.id_)}
-          loading={isLoading}
+          onAdd={state.addItemToCartList}
+          onFavourite={state.addItemsToFavourite}
+          loading={state.isLoading}
           {...item}
         />
       );
     });
   };
-
   return <div className="items-list">{renderItems()}</div>;
 };
 
