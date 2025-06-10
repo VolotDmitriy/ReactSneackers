@@ -119,6 +119,8 @@ function App() {
         removeItemFromFavouriteList,
         isItemAdded,
         isItemFavourite,
+        setCartItems,
+        setIsOpened,
         isLoading,
       }}
     >

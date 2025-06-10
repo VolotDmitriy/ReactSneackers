@@ -65,5 +65,152 @@
     }
   ],
   "cart": [],
-  "favourite": []
+  "favourite": [],
+  "orders": [
+    {
+      "id": "7804",
+      "items": [
+        {
+          "id": "4e98",
+          "id_": "9c12493a-310a-44e3-ab8c-978c497bbcca",
+          "title": "Кроссовки Puma X Aka Boku Future Rider",
+          "price": 8999,
+          "imgURL": "/images/items/4.png"
+        },
+        {
+          "id": "f04d",
+          "id_": "93db3c31-60fc-458c-a8fd-38092a9d1310",
+          "title": "Мужские Кроссовки Nike Lebron XVIII Low",
+          "price": 13999,
+          "imgURL": "/images/items/9.png"
+        },
+        {
+          "id": "0f91",
+          "id_": "93f33c90-027a-4036-9a19-182be37ab16f",
+          "title": "Мужские Кроссовки Under Armour Curry 8",
+          "price": 15199,
+          "imgURL": "/images/items/5.png"
+        }
+      ],
+      "price": [
+        38197,
+        1910
+      ]
+    },
+    {
+      "id": "a756",
+      "items": [
+        {
+          "id": "5d9b",
+          "id_": "e69065d3-5f1d-4a1d-97b3-08ca96cb4e5e",
+          "title": "КроМужские Кроссовки Nike Kyrie 7",
+          "price": 11299,
+          "imgURL": "/images/items/6.png"
+        },
+        {
+          "id": "260b",
+          "id_": "93f33c90-027a-4036-9a19-182be37ab16f",
+          "title": "Мужские Кроссовки Under Armour Curry 8",
+          "price": 15199,
+          "imgURL": "/images/items/5.png"
+        }
+      ],
+      "price": [
+        26498,
+        1325
+      ]
+    },
+    {
+      "id": "6450",
+      "items": [
+        {
+          "id": "896b",
+          "id_": "8251e32c-d9a4-4177-b183-ed830201a975",
+          "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+          "price": 12999,
+          "imgURL": "/images/items/1.png"
+        },
+        {
+          "id": "cfb0",
+          "id_": "ae7b581f-c11b-4ca5-9c3b-8d3439542e8c",
+          "title": "Мужские Кроссовки Nike Air Max 270",
+          "price": 12999,
+          "imgURL": "/images/items/2.png"
+        }
+      ],
+      "price": [
+        25998,
+        1300
+      ]
+    },
+    {
+      "id": "6825",
+      "items": [
+        {
+          "id": "8ded",
+          "id_": "ae7b581f-c11b-4ca5-9c3b-8d3439542e8c",
+          "title": "Мужские Кроссовки Nike Air Max 270",
+          "price": 12999,
+          "imgURL": "/images/items/2.png"
+        },
+        {
+          "id": "a9b5",
+          "id_": "e69065d3-5f1d-4a1d-97b3-08ca96cb4e5e",
+          "title": "КроМужские Кроссовки Nike Kyrie 7",
+          "price": 11299,
+          "imgURL": "/images/items/6.png"
+        }
+      ],
+      "price": [
+        24298,
+        1215
+      ]
+    },
+    {
+      "id": "d89a",
+      "items": [
+        {
+          "id": "630f",
+          "id_": "8251e32c-d9a4-4177-b183-ed830201a975",
+          "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+          "price": 12999,
+          "imgURL": "/images/items/1.png"
+        },
+        {
+          "id": "2ddc",
+          "id_": "ae7b581f-c11b-4ca5-9c3b-8d3439542e8c",
+          "title": "Мужские Кроссовки Nike Air Max 270",
+          "price": 12999,
+          "imgURL": "/images/items/2.png"
+        }
+      ],
+      "price": [
+        25998,
+        1300
+      ]
+    },
+    {
+      "id": "e2a6",
+      "items": [
+        {
+          "id": "35cd",
+          "id_": "8251e32c-d9a4-4177-b183-ed830201a975",
+          "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+          "price": 12999,
+          "imgURL": "/images/items/1.png"
+        },
+        {
+          "id": "e9b0",
+          "id_": "ae7b581f-c11b-4ca5-9c3b-8d3439542e8c",
+          "title": "Мужские Кроссовки Nike Air Max 270",
+          "price": 12999,
+          "imgURL": "/images/items/2.png"
+        }
+      ],
+      "price": [
+        25998,
+        1300
+      ]
+    }
+  ]
 }

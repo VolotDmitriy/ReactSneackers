@@ -1,7 +1,54 @@
 import Icon from '../services/Icon';
 import { priceCounter } from '../services/priceCounter';
+import Info from './Info';
+import { useContext, useEffect, useState } from 'react';
+import AppContext from '../context';
+import axios from 'axios';
 
 const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { cartItems, setCartItems } = useContext(AppContext);
+
+  useEffect(() => {
+    const countOfOrders = async () => {
+      const { data } = await axios.get('http://localhost:5000/orders');
+      setOrderId(data.length + 1);
+    };
+    countOfOrders();
+  }, []);
+
+  const clearCart = async () => {
+    try {
+      const { data } = await axios.get('http://localhost:5000/cart');
+      await Promise.all(
+        data.map((item) => {
+          return axios.delete(`http://localhost:5000/cart/${item.id}`);
+        })
+      );
+      setCartItems([]);
+    } catch (error) {
+      console.log(error);
+      alert('Не удалось очистить корзину');
+    }
+  };
+
+  const clickOrder = async () => {
+    try {
+      setIsLoading(true);
+      await axios.post('http://localhost:5000/orders', {
+        items: cartItems,
+        price: priceCounter(items),
+      });
+      await clearCart();
+      setIsOrderComplete(true);
+    } catch (error) {
+      console.log(error);
+      alert('Ошибка при создании заказа');
+    }
+    setIsLoading(false);
+  };
   const isEmpty = items.length === 0;
 
   return (
@@ -10,16 +57,20 @@ const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
         <h2>Корзина</h2>
 
         {isEmpty && (
-          <div className="empty-basket">
-            <Icon name="emptyBasket" />
-            <h3>Корзина пустая</h3>
-            <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-
-            <div className="back-button" onClick={onCloseBasket}>
-              <Icon name="arrow" />
-              <button>Вернуться назад</button>
-            </div>
-          </div>
+          <Info
+            title={isOrderComplete ? 'Заказ оформлен!' : 'Корзина пустая'}
+            description={
+              isOrderComplete
+                ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
+                : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
+            }
+          >
+            {isOrderComplete ? (
+              <Icon name="readyOrder" />
+            ) : (
+              <Icon name="emptyBasket" />
+            )}
+          </Info>
         )}
 
         {!isEmpty && (
@@ -56,7 +107,13 @@ const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
                   {priceCounter(items)[1]} руб.
                 </span>
               </div>
-              <button className="place-an-order-btn">Оформить заказ</button>
+              <button
+                className="place-an-order-btn"
+                onClick={clickOrder}
+                disabled={isLoading}
+              >
+                Оформить заказ
+              </button>
             </div>
           </>
         )}
