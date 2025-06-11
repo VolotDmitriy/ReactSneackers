@@ -2,7 +2,7 @@ import CartList from '../Components/CartList';
 import AppContext from '../context';
 import { useContext } from 'react';
 
-const Favourite = ({}) => {
+const Favourite = () => {
   const { favouriteItems } = useContext(AppContext);
 
   return (

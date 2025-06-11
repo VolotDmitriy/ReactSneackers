@@ -30,6 +30,7 @@ const Header = (props) => {
         </li>
 
         <li className="Profile">
+          <Link to={'/orders'}></Link>
           <Icon name="user" width={18} height={18} />
           <span>Профиль</span>
         </li>

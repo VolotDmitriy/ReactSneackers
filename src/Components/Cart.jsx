@@ -61,9 +61,11 @@ const Cart = ({
               <p>{SpaceNumberInsertion(price)}</p>
             </div>
 
-            <div className="item__add-button" onClick={handleAddButton}>
-              <Icon name={isItemAdded(id_) ? 'added-cart' : 'plus'} />
-            </div>
+            {onAdd && (
+              <div className="item__add-button" onClick={handleAddButton}>
+                <Icon name={isItemAdded(id_) ? 'added-cart' : 'plus'} />
+              </div>
+            )}
           </div>
         </>
       )}

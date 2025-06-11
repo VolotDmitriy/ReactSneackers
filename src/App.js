@@ -8,6 +8,7 @@ import { SpaceNumberInsertion } from './services/SpaceNumberInsertion';
 import Home from './pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Favourite from './pages/Favourite';
+import Orders from './pages/Orders';
 
 function App() {
   const [isOpened, setIsOpened] = useState(false); // MARK FOR OPEN STATUS OF MODAL (CART LIST)
@@ -142,6 +143,7 @@ function App() {
         <Routes>
           <Route path={'/'} element={<Home />} />
           <Route path={'/favourite'} element={<Favourite />} />
+          <Route path={'/orders'} element={<Orders />} />
         </Routes>
       </div>
     </AppContext.Provider>

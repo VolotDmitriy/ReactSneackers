@@ -2,7 +2,7 @@ import Cart from './Cart';
 import AppContext from '../context';
 import { useContext } from 'react';
 
-const CartList = ({ arrOfItems }) => {
+const CartList = ({ arrOfItems, hide = false }) => {
   const state = useContext(AppContext);
 
   const renderItems = () => {
@@ -10,7 +10,7 @@ const CartList = ({ arrOfItems }) => {
       return (
         <Cart
           key={index}
-          onAdd={state.addItemToCartList}
+          {...(hide ? {} : { onAdd: state.addItemToCartList })}
           onFavourite={state.addItemsToFavourite}
           loading={state.isLoading}
           {...item}
