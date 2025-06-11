@@ -43,15 +43,18 @@ const Cart = ({
         </ContentLoader>
       ) : (
         <>
-          <div className="favourite" onClick={() => handleFavouriteButton()}>
-            <Icon
-              name={
-                isItemFavourite(id_)
-                  ? 'favourite_active'
-                  : 'favourite_nonactive'
-              }
-            />
-          </div>
+          {onFavourite && (
+            <div className="favourite" onClick={() => handleFavouriteButton()}>
+              <Icon
+                name={
+                  isItemFavourite(id_)
+                    ? 'favourite_active'
+                    : 'favourite_nonactive'
+                }
+              />
+            </div>
+          )}
+
           <img className="item__img" src={imgURL} alt="sneakers" />
           <p className="item__sign">{title}</p>
 

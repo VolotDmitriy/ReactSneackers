@@ -10,8 +10,12 @@ const CartList = ({ arrOfItems, hide = false }) => {
       return (
         <Cart
           key={index}
-          {...(hide ? {} : { onAdd: state.addItemToCartList })}
-          onFavourite={state.addItemsToFavourite}
+          {...(hide
+            ? {}
+            : {
+                onAdd: state.addItemToCartList,
+                onFavourite: state.addItemToCartList,
+              })}
           loading={state.isLoading}
           {...item}
         />
