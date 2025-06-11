@@ -2,14 +2,14 @@ import Icon from '../services/Icon';
 import { priceCounter } from '../services/priceCounter';
 import Info from './Info';
 import { useContext, useEffect, useState } from 'react';
-import AppContext from '../context';
 import axios from 'axios';
+import { useCart } from '../useCart';
 
 const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
   const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { cartItems, setCartItems } = useContext(AppContext);
+  const { cartItems, setCartItems, totalPrice } = useCart();
 
   useEffect(() => {
     const countOfOrders = async () => {
@@ -39,7 +39,7 @@ const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
       setIsLoading(true);
       await axios.post('http://localhost:5000/orders', {
         items: cartItems,
-        price: priceCounter(items),
+        price: totalPrice,
       });
       await clearCart();
       setIsOrderComplete(true);
@@ -97,14 +97,14 @@ const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
                 <span>Итог: </span>
                 <div className="line"></div>
                 <span className="total-element__number">
-                  {priceCounter(items)[0]} руб.
+                  {totalPrice[0]} руб.
                 </span>
               </div>
               <div className="total-element">
                 <span>Налог 5%: </span>
                 <div className="line"></div>
                 <span className="total-element__number">
-                  {priceCounter(items)[1]} руб.
+                  {totalPrice[1]} руб.
                 </span>
               </div>
               <button

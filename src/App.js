@@ -133,10 +133,7 @@ function App() {
           />
         )}
 
-        <Header
-          onClickCartBasket={() => setIsOpened(true)}
-          totalPrice={SpaceNumberInsertion(priceCounter(cartItems)[0])}
-        />
+        <Header onClickCartBasket={() => setIsOpened(true)} />
 
         <div className="demarcation-line">
           <span></span>

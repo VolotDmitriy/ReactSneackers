@@ -1,7 +1,11 @@
 import Icon from '../services/Icon';
 import { Link } from 'react-router-dom';
+import { useCart } from '../useCart';
+import { SpaceNumberInsertion } from '../services/SpaceNumberInsertion';
+import { priceCounter } from '../services/priceCounter';
 
 const Header = (props) => {
+  const { totalPrice } = useCart();
   return (
     <header>
       <div className="headerLogo">
@@ -16,7 +20,7 @@ const Header = (props) => {
       <ul>
         <li className="balance" onClick={props.onClickCartBasket}>
           <Icon name="cart" width={20} height={20} />
-          <span>{props.totalPrice} руб.</span>
+          <span>{SpaceNumberInsertion(totalPrice[0])} руб.</span>
         </li>
 
         <li className="Bootmark">
