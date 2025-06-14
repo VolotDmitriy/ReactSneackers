@@ -300,6 +300,13 @@ const Icon = ({ name, width, height }) => {
         <img src="/images/ready_order.png" alt="order accepted" height="120" />
       );
 
+    case 'emptyOrders':
+      return (
+        <img src="/images/NoOrders.png" alt="order accepted" height="120" />
+      );
+    case 'emptyFavourite':
+      return <img src="/images/NoFav.png" alt="order accepted" height="120" />;
+
     case 'arrow':
       return (
         <svg
