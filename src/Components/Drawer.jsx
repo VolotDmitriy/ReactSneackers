@@ -1,52 +1,125 @@
-import Icon from "../services/Icon";
+import Icon from '../services/Icon';
+import { priceCounter } from '../services/priceCounter';
+import Info from './Info';
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useCart } from '../useCart';
 
-const Drawer = ({items = [], onCloseBasket}) =>{
+const Drawer = ({ items = [], onRemove, onCloseBasket }) => {
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { cartItems, setCartItems, totalPrice } = useCart();
 
-    const priceCounter = () =>{
-        let count = 0;
-        items.map(items => count += items.price);
-        console.log(count);
-        return [count, count * 0.05];
+  useEffect(() => {
+    const countOfOrders = async () => {
+      const { data } = await axios.get('http://localhost:5000/orders');
+      setOrderId(data.length + 1);
+    };
+    countOfOrders();
+  }, []);
+
+  const clearCart = async () => {
+    try {
+      const { data } = await axios.get('http://localhost:5000/cart');
+      await Promise.all(
+        data.map((item) => {
+          return axios.delete(`http://localhost:5000/cart/${item.id}`);
+        })
+      );
+      setCartItems([]);
+    } catch (error) {
+      console.log(error);
+      alert('Не удалось очистить корзину');
     }
+  };
 
+  const clickOrder = async () => {
+    try {
+      setIsLoading(true);
+      await axios.post('http://localhost:5000/orders', {
+        items: cartItems,
+        price: totalPrice,
+      });
+      await clearCart();
+      setIsOrderComplete(true);
+    } catch (error) {
+      console.log(error);
+      alert('Ошибка при создании заказа');
+    }
+    setIsLoading(false);
+  };
+  const isEmpty = items.length === 0;
 
-    return (
+  return (
+    <div className="overlay" onClick={onCloseBasket}>
+      <div className="drawer" onClick={(e) => e.stopPropagation()}>
+        <h2>Корзина</h2>
 
-        <div className="overlay" onClick={onCloseBasket}>
-            <div className="drawer" onClick={(e) => e.stopPropagation()}>
-                <h2>Корзина</h2>
+        {isEmpty && (
+          <Info
+            title={isOrderComplete ? 'Заказ оформлен!' : 'Корзина пустая'}
+            description={
+              isOrderComplete
+                ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
+                : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
+            }
+          >
+            {isOrderComplete ? (
+              <Icon name="readyOrder" />
+            ) : (
+              <Icon name="emptyBasket" />
+            )}
+          </Info>
+        )}
 
-                <div className="shopping-cart-list">
-                    {items.map((item) =>
-                        <div className="shopping-cart-item">
-                            <img className="item__img" src={item.imgURL} alt="sneakers"/>
-                            <div className="shopping-cart-item__info">
-                                <span>{item.title}</span>
-                                <p>{item.price} руб.</p>
-                            </div>
-                            <Icon name="cancel-button"/>
-                        </div>
-                    )}
+        {!isEmpty && (
+          <>
+            <div className="shopping-cart-list">
+              {items.map((item) => (
+                <div className="shopping-cart-item">
+                  <img className="item__img" src={item.imgURL} alt="sneakers" />
+                  <div className="shopping-cart-item__info">
+                    <span>{item.title}</span>
+                    <p>{item.price} руб.</p>
+                  </div>
+                  <div
+                    className="cancel-button"
+                    onClick={() => onRemove(item.id_)}
+                  >
+                    <Icon name="cancel-button" />
+                  </div>
                 </div>
-
-                <div className="total-shopping">
-                    <div className="total-element">
-                        <span>Итог: </span>
-                        <div className="line"></div>
-                        <span className="total-element__number">{priceCounter()[0]} руб.</span>
-                    </div>
-                    <div className="total-element">
-                        <span>Налог 5%: </span>
-                        <div className="line"></div>
-                        <span className="total-element__number">{priceCounter()[1]} руб.</span>
-                    </div>
-                    <button className="place-an-order-btn">Оформить заказ</button>
-                </div>
-
+              ))}
             </div>
-
-        </div>
-    );
-}
+            <div className="total-shopping">
+              <div className="total-element">
+                <span>Итог: </span>
+                <div className="line"></div>
+                <span className="total-element__number">
+                  {totalPrice[0]} руб.
+                </span>
+              </div>
+              <div className="total-element">
+                <span>Налог 5%: </span>
+                <div className="line"></div>
+                <span className="total-element__number">
+                  {totalPrice[1]} руб.
+                </span>
+              </div>
+              <button
+                className="place-an-order-btn"
+                onClick={clickOrder}
+                disabled={isLoading}
+              >
+                Оформить заказ
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Drawer;

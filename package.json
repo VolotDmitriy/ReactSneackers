@@ -6,14 +6,20 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.6",
+    "json-server": "^1.0.0-beta.2",
     "react": "^18.3.1",
+    "react-content-loader": "^7.0.2",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "sass": "^1.77.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "server": "json-server db.json --port 5000",
+    "start": "cross-env BROWSER=none react-scripts start",
+    "dev": "start-server-and-test 'npm run server' http://localhost:5000/items 'npm run start'",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -35,5 +41,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "prettier": "^3.3.3",
+    "start-server-and-test": "^2.0.8",
+    "wait-on": "^8.0.1"
   }
 }

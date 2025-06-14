@@ -1,18 +1,28 @@
+import Cart from './Cart';
+import AppContext from '../context';
+import { useContext } from 'react';
 
-import Cart from "./Cart";
+const CartList = ({ arrOfItems, hide = false }) => {
+  const state = useContext(AppContext);
 
-
-const CartList = ({arrOfItems, clickPlus}) =>{
-
-
-
-    return (
-        <div className="items-list">
-            {arrOfItems.map(item =>
-                <Cart title={item.title} price={item.price} imgURL={item.img_url} onAdd={clickPlus}/>
-            )}
-        </div>
-    );
-}
+  const renderItems = () => {
+    return (state.isLoading ? [...Array(8)] : arrOfItems).map((item, index) => {
+      return (
+        <Cart
+          key={index}
+          {...(hide
+            ? {}
+            : {
+                onAdd: state.addItemToCartList,
+                onFavourite: state.addItemToCartList,
+              })}
+          loading={state.isLoading}
+          {...item}
+        />
+      );
+    });
+  };
+  return <div className="items-list">{renderItems()}</div>;
+};
 
 export default CartList;
