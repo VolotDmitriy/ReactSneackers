@@ -14,7 +14,7 @@ const CartList = ({ arrOfItems, hide = false }) => {
             ? {}
             : {
                 onAdd: state.addItemToCartList,
-                onFavourite: state.addItemToCartList,
+                onFavourite: state.addItemsToFavourite,
               })}
           loading={state.isLoading}
           {...item}

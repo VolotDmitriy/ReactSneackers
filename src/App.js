@@ -2,9 +2,7 @@ import Header from './Components/Header';
 import Drawer from './Components/Drawer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { priceCounter } from './services/priceCounter';
 import AppContext from './context';
-import { SpaceNumberInsertion } from './services/SpaceNumberInsertion';
 import Home from './pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Favourite from './pages/Favourite';
@@ -23,12 +21,12 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      await updateFavouriteItems();
-      await updateCartItems();
-
-      const res = await fetch('http://localhost:5000/items');
-      const json = await res.json();
-      setItems(json);
+      const [cartResponse, favouriteResponse, itemsResponse] =
+        await Promise.all([
+          updateCartItems(),
+          updateFavouriteItems(),
+          updateItems(),
+        ]);
       setIsLoading(false);
     }
 
@@ -43,10 +41,21 @@ function App() {
     }
   }, [location]);
 
+  const updateItems = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/items');
+      setItems(res.data);
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const updateCartItems = async () => {
     try {
       const res = await axios.get('http://localhost:5000/cart');
       setCartItems(res.data);
+      return res;
     } catch (e) {
       console.error(e);
     }
@@ -55,6 +64,7 @@ function App() {
     try {
       const res = await axios.get('http://localhost:5000/favourite');
       setFavouriteItems(res.data);
+      return res;
     } catch (e) {
       console.error(e);
     }
